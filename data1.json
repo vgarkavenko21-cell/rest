@@ -974,6 +974,62 @@
       "payment_method": "cash",
       "created_at": "2026-02-07T12:35:43.605695",
       "paid_at": "2026-02-07T12:56:33.591161"
+    },
+    "1770467031": {
+      "user_id": 523651165,
+      "items": {
+        "fav_fav_1770460130_бараьан": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 444,
+      "contact_info": "рпа",
+      "order_type": null,
+      "status": "new",
+      "is_paid": false,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T14:23:51.774746"
+    },
+    "1770467903": {
+      "user_id": 523651165,
+      "items": {
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 1
+        }
+      },
+      "total": 56000,
+      "contact_info": "ар",
+      "order_type": null,
+      "status": "new",
+      "is_paid": false,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T14:38:23.289026"
+    },
+    "1770467943": {
+      "user_id": 523651165,
+      "items": {
+        "fav_0b89953a34": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        },
+        "fav_fav_1770460130_бараьан": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 1332,
+      "contact_info": "т",
+      "order_type": null,
+      "status": "new",
+      "is_paid": false,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T14:39:03.224371"
     }
   },
   "users": {},
@@ -987,6 +1043,18 @@
         "id": "fav_1770460130_бараьан",
         "name": "бараьан",
         "price": 444,
+        "quantity": 1
+      },
+      {
+        "id": "0b89953a34",
+        "name": "бараьан",
+        "price": 444,
+        "quantity": 1
+      },
+      {
+        "id": "045d9fbc63",
+        "name": "Омлет",
+        "price": 56000,
         "quantity": 1
       }
     ]
