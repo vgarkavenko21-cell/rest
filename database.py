@@ -130,32 +130,37 @@ class Database:
         if "favorites" not in data:
             data["favorites"] = {}
             self.save_data(data)
+            return []  # Повертаємо порожній список
         
         # Повертаємо список улюблених для користувача
-        return data.get("favorites", {}).get(user_id_str, [])
+        favorites = data.get("favorites", {}).get(user_id_str, [])
+        # Перевірка на None або порожній список
+        return favorites if favorites else []
     
     def add_user_favorite(self, user_id, item_data):
         """Додаємо страву до улюблених"""
         data = self.load_data()
         user_id_str = str(user_id)
-        
+    
         # Ініціалізуємо структури, якщо їх немає
         if "favorites" not in data:
-            data["favorites"] = {}
-        
+           data["favorites"] = {}
+    
         if user_id_str not in data["favorites"]:
             data["favorites"][user_id_str] = []
-        
+    
         # Перевіряємо, чи вже є така страва (за назвою)
         existing_favorites = data["favorites"][user_id_str]
         item_name = item_data.get('name', '')
-        
+    
+        # ВИПРАВЛЕННЯ: Перевіряємо за ID, а не за назвою
+        item_id = item_data.get('id', '')
         for fav in existing_favorites:
-            if fav.get('name') == item_name:
-                # Страва вже в улюблених
-                return False
-        
-        # Додаємо нову страву
+           if fav.get('id') == item_id:  # Змінити тут
+               # Страва вже в улюблених
+              return False
+    
+     # Додаємо нову страву
         data["favorites"][user_id_str].append(item_data)
         self.save_data(data)
         return True

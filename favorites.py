@@ -1,3 +1,4 @@
+import hashlib
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 
 class Favorites:
@@ -6,31 +7,77 @@ class Favorites:
         self.cart = cart
         self.user_selections = {}
     
-    async def show_favorites_menu(self, message):
-        """Показуємо меню улюблених страв"""
+    def _generate_short_id(self, item_name):
+        """Генерує короткий стабільний ID для страви на основі назви"""
+        return hashlib.md5(item_name.encode('utf-8')).hexdigest()[:10]
+
+    async def show_favorites_menu(self, message, is_update=False):
+        """Показуємо меню улюблених страв.
+           is_update=True використовується, якщо ми редагуємо існуюче повідомлення.
+        """
         user_id = message.from_user.id
         
         # Отримуємо улюблені страви
         favorites = self.db.get_user_favorites(user_id)
         
-        # Навігаційна клавіатура - показуємо ЗАВЖДИ
-        nav_keyboard = [
-            [KeyboardButton("🍽 Меню"), KeyboardButton("🛒 Кошик")],
-            [KeyboardButton("🧾 Чек"), KeyboardButton("🔙 Головне меню")]
-        ]
+        # Навігаційна клавіатура (Тільки якщо це нове повідомлення)
+        if not is_update:
+            nav_keyboard = [
+                [KeyboardButton("🍽 Меню"), KeyboardButton("🛒 Кошик")],
+                [KeyboardButton("🧾 Чек"), KeyboardButton("🔙 Головне меню")]
+            ]
+            await message.reply_text(
+                "Оберіть дію:",
+                reply_markup=ReplyKeyboardMarkup(nav_keyboard, resize_keyboard=True)
+            )
         
         # Перевіряємо чи є улюблені
         if not favorites:
-            reply_markup = ReplyKeyboardMarkup(nav_keyboard, resize_keyboard=True)
-            await query.answer(f"🔥 СУПЕР! {favorite_item['name']} додано до кошика!", show_alert=True)
+            text = (
+                "❤️ <b>УЛЮБЛЕНІ СТРАВИ</b>\n\n"
+                "✨ <b>СУПЕР!</b> Тут будуть ваші улюблені страви!\n\n"
+                "📌 Щоб додати страви в улюблене:\n"
+                "1. Зробіть замовлення\n"
+                "2. Перейдіть в '🧾 Чек'\n"
+                "3. Натисніть '❤️ Додати в улюблене'\n\n"
+                "🔥 Це дозволить швидко повторювати улюблені замовлення!"
+            )
+            if is_update:
+                try:
+                    await message.edit_text(text, parse_mode="HTML")
+                except:
+                    pass 
+            else:
+                await message.reply_text(text, parse_mode="HTML")
+            return
         
-        # Отримуємо кошик користувача
+        # Генеруємо клавіатуру з актуальними даними кошика
+        reply_markup = self._build_favorites_keyboard(user_id, favorites)
+        
+        text = (
+            "❤️ <b>ВАШІ УЛЮБЛЕНІ СТРАВИ</b>\n"
+            "👇 Оберіть страви для швидкого замовлення:"
+        )
+
+        if is_update:
+            # Якщо текст не змінився, Telegram викине помилку, тому ігноруємо її
+            try:
+                await message.edit_text(text, reply_markup=reply_markup, parse_mode="HTML")
+            except Exception:
+                # Якщо текст той самий, просто оновлюємо кнопки
+                try:
+                    await message.edit_reply_markup(reply_markup=reply_markup)
+                except:
+                    pass
+        else:
+            await message.reply_text(text, reply_markup=reply_markup, parse_mode="HTML")
+
+    def _build_favorites_keyboard(self, user_id, favorites):
+        """Допоміжна функція для створення кнопок"""
         user_cart = self.cart.get_user_cart(user_id)
-        
-        # Створюємо кнопки
         keyboard = []
         
-        for fav in favorites[:10]:  # Обмежуємо до 10 страв
+        for fav in favorites[:10]: # Ліміт 10 страв для краси
             item_id = fav.get('id', '')
             item_name = fav.get('name', 'Невідома страва')
             
@@ -38,71 +85,46 @@ class Favorites:
                 continue
             
             # Перевіряємо, чи ця страва вже в кошику
-            is_in_cart = False
             quantity = 0
-            
-            # Ключ для улюблених страв в кошику
             cart_key = f"fav_{item_id}"
+            
             if cart_key in user_cart:
-                is_in_cart = True
                 quantity = user_cart[cart_key]['quantity']
             
-            # Створюємо текст кнопки
-            if is_in_cart and quantity > 0:
-                # Емодзі-лічильники
+            # Формуємо вигляд кнопки
+            if quantity > 0:
                 emoji_numbers = {
                     1: "1️⃣", 2: "2️⃣", 3: "3️⃣", 4: "4️⃣", 5: "5️⃣",
                     6: "6️⃣", 7: "7️⃣", 8: "8️⃣", 9: "9️⃣", 10: "🔟"
                 }
-                
-                if quantity <= 10:
-                    counter = emoji_numbers[quantity]
-                else:
-                    counter = f"{quantity}🛒"
-                
+                counter = emoji_numbers.get(quantity, f"{quantity} шт.")
+                # Кнопка для видалення (або зменшення)
                 button_text = f"{counter} {item_name}"
                 callback_data = f"fav_remove_{item_id}"
             else:
+                # Кнопка додавання
                 button_text = f"➕ {item_name}"
                 callback_data = f"fav_add_{item_id}"
             
             keyboard.append([InlineKeyboardButton(button_text, callback_data=callback_data)])
         
-        # Кнопка для додавання всіх страв
+        # Кнопки управління
+        controls = []
         if len(favorites) > 1:
-            keyboard.append([
-                InlineKeyboardButton("🛒 Додати всі до кошика", callback_data="fav_add_all")
-            ])
+             keyboard.append([InlineKeyboardButton("🛒 Додати всі до кошика", callback_data="fav_add_all")])
         
-        # Кнопка очищення улюблених
-        keyboard.append([
-            InlineKeyboardButton("🗑 Очистити улюблені", callback_data="fav_clear")
-        ])
+        keyboard.append([InlineKeyboardButton("🗑 Очистити улюблені", callback_data="fav_clear")])
         
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        
-        # Спершу показуємо навігаційну клавіатуру
-        await message.reply_text(
-            "Оберіть дію:",
-            reply_markup=ReplyKeyboardMarkup(nav_keyboard, resize_keyboard=True)
-        )
-        
-        # Потім показуємо улюблені страви
-        await message.reply_text(
-            "❤️ <b>ВАШІ УЛЮБЛЕНІ СТРАВИ</b>",
-            reply_markup=reply_markup,
-            parse_mode="HTML"
-        )
-    
+        return InlineKeyboardMarkup(keyboard)
+
     async def start_add_favorites(self, message, order_ids):
         """Початок додавання страв в улюблені з чеку"""
         user_id = message.from_user.id
-        
-        # Отримуємо всі унікальні страви з замовлень
         data = self.db.load_data()
         unique_items = []
         seen_names = set()
         
+        # Збираємо страви з історії замовлень
         for order_id in order_ids:
             order = data.get("orders", {}).get(order_id)
             if order and str(order.get("user_id")) == str(user_id):
@@ -110,52 +132,31 @@ class Favorites:
                     item_name = item.get("name", "")
                     if item_name and item_name not in seen_names:
                         seen_names.add(item_name)
+                        
+                        # ВАЖЛИВО: Генеруємо короткий ID, щоб кнопка працювала
+                        short_id = self._generate_short_id(item_name)
+                        
                         unique_items.append({
-                            'id': f"fav_{order_id}_{item_name}",
+                            'id': short_id, 
                             'name': item_name,
                             'price': item.get("price", 0),
-                            'quantity': item.get("quantity", 1)
+                            'quantity': 1 # Дефолтна кількість для збереження
                         })
         
         if not unique_items:
             await message.reply_text("❌ У цьому чеку немає страв для додавання.")
             return
         
-        # Зберігаємо для подальшої обробки
         self.user_selections[user_id] = {
             'items': unique_items,
             'selected': set()
         }
         
-        # Створюємо інлайн-клавіатуру для вибору
-        keyboard = []
-        
-        for item in unique_items[:15]:  # Обмежуємо до 15
-            keyboard.append([
-                InlineKeyboardButton(f"☐ {item['name']}", 
-                                   callback_data=f"fav_select_{item['id']}")
-            ])
-        
-        keyboard.append([
-            InlineKeyboardButton("✅ Вибрати всі", callback_data="fav_select_all"),
-            InlineKeyboardButton("☐ Скасувати всі", callback_data="fav_deselect_all")
-        ])
-        
-        keyboard.append([
-            InlineKeyboardButton("💾 Зберегти вибір", callback_data="fav_save"),
-            InlineKeyboardButton("❌ Відмінити", callback_data="fav_cancel")
-        ])
-        
-        await message.reply_text(
-            "❤️ <b>Оберіть страви, які вам сподобались:</b>\n\n"
-            "Вони будуть збережені в розділі 'Улюблене' для швидкого повторення замовлення.",
-            reply_markup=InlineKeyboardMarkup(keyboard),
-            parse_mode="HTML"
-        )
+        await self._update_selection_message(message, user_id, is_new=True)
 
     async def handle_favorites_callback(self, query, data, user_id):
         """Обробка всіх callback для улюблених"""
-        await query.answer()
+        # Не викликаємо query.answer() тут, робимо це в конкретних методах
         
         if data == "fav_select_all":
             await self._select_all(query, user_id)
@@ -172,150 +173,26 @@ class Favorites:
         elif data.startswith("fav_select_"):
             await self._handle_selection(query, data, user_id)
         elif data.startswith("fav_add_"):
-            # Додаємо страви до кошика
             await self._add_to_cart(query, data, user_id)
         elif data.startswith("fav_remove_"):
-            # Видаляємо з кошика
             await self._remove_from_cart(query, data, user_id)
         else:
-            await query.answer("❌ Невідома команда", show_alert=True)
+            await query.answer("❌ Невідома команда")
     
-    async def _handle_selection(self, query, data, user_id):
-        """Обробка вибору окремої страви"""
-        item_id = data.replace("fav_select_", "")
-        
-        if user_id not in self.user_selections:
-            self.user_selections[user_id] = {'selected': set()}
-        
-        selected = self.user_selections[user_id]['selected']
-        
-        if item_id in selected:
-            selected.remove(item_id)
-        else:
-            selected.add(item_id)
-        
-        await self._update_selection_message(query, user_id)
-    
-    async def _select_all(self, query, user_id):
-        """Вибрати всі страви"""
-        if user_id in self.user_selections:
-            items = self.user_selections[user_id]['items']
-            self.user_selections[user_id]['selected'] = {item['id'] for item in items}
-            await self._update_selection_message(query, user_id)
-    
-    async def _deselect_all(self, query, user_id):
-        """Скасувати вибір всіх страв"""
-        if user_id in self.user_selections:
-            self.user_selections[user_id]['selected'] = set()
-            await self._update_selection_message(query, user_id)
-    
-    async def _update_selection_message(self, query, user_id):
-        """Оновити повідомлення з вибором"""
-        if user_id not in self.user_selections:
-            return
-        
-        items = self.user_selections[user_id]['items']
-        selected = self.user_selections[user_id]['selected']
-        
-        keyboard = []
-        
-        for item in items[:15]:
-            is_selected = item['id'] in selected
-            emoji = "✅" if is_selected else "☐"
-            keyboard.append([
-                InlineKeyboardButton(f"{emoji} {item['name']}", 
-                                   callback_data=f"fav_select_{item['id']}")
-            ])
-        
-        keyboard.append([
-            InlineKeyboardButton("✅ Вибрати всі", callback_data="fav_select_all"),
-            InlineKeyboardButton("☐ Скасувати всі", callback_data="fav_deselect_all")
-        ])
-        
-        keyboard.append([
-            InlineKeyboardButton("💾 Зберегти вибір", callback_data="fav_save"),
-            InlineKeyboardButton("❌ Відмінити", callback_data="fav_cancel")
-        ])
-        
-        try:
-            await query.edit_message_text(
-                f"❤️ <b>Оберіть страви, які вам сподобались:</b>\n\n"
-                f"✅ Вибрано: {len(selected)} з {len(items)} страв",
-                reply_markup=InlineKeyboardMarkup(keyboard),
-                parse_mode="HTML"
-            )
-        except:
-            pass
-    
-    async def _save_favorites(self, query, user_id):
-        """Зберегти вибрані страви в улюблені"""
-        if user_id not in self.user_selections:
-            await query.answer("❌ Немає вибраних страв", show_alert=True)
-            return
-        
-        selected = self.user_selections[user_id]['selected']
-        items = self.user_selections[user_id]['items']
-        
-        if not selected:
-            await query.answer("❌ Ви не вибрали жодної страви", show_alert=True)
-            return
-        
-        saved_count = 0
-        for item_id in selected:
-            for item in items:
-                if item['id'] == item_id:
-                    # Додаємо в улюблені
-                    success = self.db.add_user_favorite(user_id, item)
-                    if success:
-                        saved_count += 1
-                    break
-        
-        # Очищаємо тимчасові дані
-        if user_id in self.user_selections:
-            del self.user_selections[user_id]
-        
-        await query.answer(f"✅ Збережено {saved_count} страв", show_alert=True)
-        
-        # Повертаємо в головне меню
-        keyboard = [
-            [KeyboardButton("🍽 Меню"), KeyboardButton("🛒 Кошик")],
-            [KeyboardButton("🧾 Чек"), KeyboardButton("❤️ Улюблене")],
-            [KeyboardButton("🔙 Головне меню")]
-        ]
-        
-        await query.edit_message_text(
-            f"✅ <b>Улюблені страви збережено!</b>\n\n"
-            f"Додано {saved_count} страв в розділ 'Улюблене'.",
-            parse_mode="HTML"
-        )
-        
-        await query.message.reply_text(
-            "🔙 Повернення до головного меню",
-            reply_markup=ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
-        )
-    
-    async def _cancel_selection(self, query, user_id):
-        """Скасувати вибір"""
-        if user_id in self.user_selections:
-            del self.user_selections[user_id]
-        
-        await query.edit_message_text("❌ Додавання в улюблені скасовано.")
+    # --- ЛОГІКА ДОДАВАННЯ В КОШИК ---
     
     async def _add_to_cart(self, query, data, user_id):
         """Додати улюблену страву до кошика"""
         item_id = data.replace("fav_add_", "")
         
-        # Знаходимо страву в улюблених
+        # Знаходимо страву
         favorites = self.db.get_user_favorites(user_id)
-        favorite_item = None
-        
-        for fav in favorites:
-            if fav.get('id') == item_id:
-                favorite_item = fav
-                break
+        favorite_item = next((f for f in favorites if f.get('id') == item_id), None)
         
         if not favorite_item:
             await query.answer("❌ Страва не знайдена", show_alert=True)
+            # Оновлюємо меню, бо можливо дані застаріли
+            await self.show_favorites_menu(query.message, is_update=True)
             return
         
         # Додаємо до кошика
@@ -331,11 +208,12 @@ class Favorites:
                 "quantity": 1
             }
         
-        await query.answer(f"✅ {favorite_item['name']} додано до кошика!", show_alert=True)
-        await self.show_favorites_menu(query.message)
-    
+        await query.answer(f"➕ {favorite_item['name']} додано!")
+        # Оновлюємо ТІЛЬКИ кнопки (без нового повідомлення)
+        await self.show_favorites_menu(query.message, is_update=True)
+
     async def _remove_from_cart(self, query, data, user_id):
-        """Видалити страву з кошика"""
+        """Зменшити кількість або видалити з кошика"""
         item_id = data.replace("fav_remove_", "")
         
         cart = self.cart.get_user_cart(user_id)
@@ -344,41 +222,26 @@ class Favorites:
         if cart_key in cart:
             if cart[cart_key]["quantity"] > 1:
                 cart[cart_key]["quantity"] -= 1
-                action = "зменшено"
+                await query.answer("➖ Кількість зменшено")
             else:
                 del cart[cart_key]
-                action = "видалено"
-            
-            # Знаходимо назву страви
-            favorites = self.db.get_user_favorites(user_id)
-            item_name = "Страва"
-            for fav in favorites:
-                if fav.get('id') == item_id:
-                    item_name = fav['name']
-                    break
-            
-            await query.answer(f"✅ {item_name} {action} з кошика", show_alert=True)
-        else:
-            await query.answer("❌ Страва не знайдена в кошику", show_alert=True)
+                await query.answer("🗑 Видалено з кошика")
         
-        await self.show_favorites_menu(query.message)
-    
+        # Оновлюємо кнопки
+        await self.show_favorites_menu(query.message, is_update=True)
+
     async def _add_all_to_cart(self, query, user_id):
-        """Додати всі улюблені страви до кошика"""
         favorites = self.db.get_user_favorites(user_id)
-        
         if not favorites:
-            await query.answer("❌ Немає улюблених страв", show_alert=True)
+            await query.answer("❌ Порожньо", show_alert=True)
             return
         
         cart = self.cart.get_user_cart(user_id)
-        added_count = 0
-        
+        count = 0
         for fav in favorites:
-            item_id = fav.get('id', '')
+            item_id = fav.get('id')
             if item_id:
                 cart_key = f"fav_{item_id}"
-                
                 if cart_key in cart:
                     cart[cart_key]["quantity"] += 1
                 else:
@@ -387,52 +250,110 @@ class Favorites:
                         "price": fav.get('price', 0),
                         "quantity": 1
                     }
-                
-                added_count += 1
+                count += 1
         
-        await query.answer(f"✅ Додано {added_count} страв до кошика!", show_alert=True)
-        await self.show_favorites_menu(query.message)
-    
-    async def _remove_favorite(self, query, data, user_id):
-        """Видалити страву з улюблених"""
-        item_id = data.replace("fav_remove_", "")
-        
-        if self.db.remove_user_favorite(user_id, item_id):
-            await query.answer("✅ Страва видалена з улюблених", show_alert=True)
-            await self.show_favorites_menu(query.message)
-        else:
-            await query.answer("❌ Помилка при видаленні", show_alert=True)
-    
+        await query.answer(f"✅ Додано {count} страв!", show_alert=True)
+        await self.show_favorites_menu(query.message, is_update=True)
+
     async def _clear_favorites(self, query, user_id):
-        """Очистити всі улюблені"""
-        favorites = self.db.get_user_favorites(user_id)
-        
-        if not favorites:
-            await query.answer("❌ Немає що очищати", show_alert=True)
+        self.db.clear_user_favorites(user_id)
+        await query.answer("🗑 Очищено!")
+        await self.show_favorites_menu(query.message, is_update=True)
+
+    # --- ЛОГІКА ВИБОРУ СТРАВ ДЛЯ ЗБЕРЕЖЕННЯ ---
+
+    async def _update_selection_message(self, message_obj, user_id, is_new=False):
+        """Оновити повідомлення з вибором (галочки)"""
+        if user_id not in self.user_selections:
             return
         
-        # Видаляємо кожну страву
-        for fav in favorites:
-            item_id = fav.get('id', '')
-            if item_id:
-                self.db.remove_user_favorite(user_id, item_id)
+        items = self.user_selections[user_id]['items']
+        selected = self.user_selections[user_id]['selected']
         
-        await query.answer("✅ Всі улюблені страви очищено", show_alert=True)
-        await query.edit_message_text("🗑️ Всі улюблені страви видалено.")
+        keyboard = []
+        for item in items[:15]:
+            is_selected = item['id'] in selected
+            emoji = "✅" if is_selected else "⬜️"
+            keyboard.append([
+                InlineKeyboardButton(f"{emoji} {item['name']}", 
+                                   callback_data=f"fav_select_{item['id']}")
+            ])
+        
+        keyboard.append([
+            InlineKeyboardButton("✅ Вибрати всі", callback_data="fav_select_all"),
+            InlineKeyboardButton("⬜️ Зняти всі", callback_data="fav_deselect_all")
+        ])
+        keyboard.append([
+            InlineKeyboardButton("💾 ЗБЕРЕГТИ", callback_data="fav_save"),
+            InlineKeyboardButton("❌ Скасувати", callback_data="fav_cancel")
+        ])
+        
+        text = (f"❤️ <b>Оберіть страви для збереження:</b>\n\n"
+                f"Обрано: {len(selected)} з {len(items)}")
+        
+        if is_new:
+            await message_obj.reply_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
+        else:
+            try:
+                # message_obj тут це query
+                await message_obj.edit_message_text(text, reply_markup=InlineKeyboardMarkup(keyboard), parse_mode="HTML")
+            except:
+                pass
 
+    async def _handle_selection(self, query, data, user_id):
+        await query.answer()
+        item_id = data.replace("fav_select_", "")
+        selected = self.user_selections[user_id]['selected']
+        
+        if item_id in selected:
+            selected.remove(item_id)
+        else:
+            selected.add(item_id)
+        await self._update_selection_message(query, user_id)
+
+    async def _select_all(self, query, user_id):
+        await query.answer()
+        items = self.user_selections[user_id]['items']
+        self.user_selections[user_id]['selected'] = {item['id'] for item in items}
+        await self._update_selection_message(query, user_id)
+
+    async def _deselect_all(self, query, user_id):
+        await query.answer()
+        self.user_selections[user_id]['selected'] = set()
+        await self._update_selection_message(query, user_id)
+
+    async def _cancel_selection(self, query, user_id):
+        await query.answer("❌ Скасовано")
+        if user_id in self.user_selections:
+            del self.user_selections[user_id]
+        await query.message.delete()
+
+    async def _save_favorites(self, query, user_id):
+        if user_id not in self.user_selections:
+            await query.answer("❌ Помилка сесії")
+            return
+            
+        selected = self.user_selections[user_id]['selected']
+        items = self.user_selections[user_id]['items']
+        
+        if not selected:
+            await query.answer("⚠️ Ви нічого не вибрали!", show_alert=True)
+            return
+            
+        count = 0
+        for item in items:
+            if item['id'] in selected:
+                if self.db.add_user_favorite(user_id, item):
+                    count += 1
+        
+        del self.user_selections[user_id]
+        await query.answer(f"✅ Збережено {count} страв!", show_alert=True)
+        
+        # Повертаємось до меню улюблених
+        await self.show_favorites_menu(query.message, is_update=True)
+    
     async def debug_favorites(self, message):
-        """Детальна інформація про улюблені для дебагу"""
-        user_id = message.from_user.id
-        favorites = self.db.get_user_favorites(user_id)
-        
-        debug_text = f"🔍 ДЕБАГ Улюблених для user_id={user_id}:\n"
-        debug_text += f"Кількість улюблених: {len(favorites) if favorites else 0}\n"
-        
-        if favorites:
-            debug_text += "\nСписок улюблених:\n"
-            for i, fav in enumerate(favorites, 1):
-                debug_text += f"{i}. ID: {fav.get('id', 'немає')}\n"
-                debug_text += f"   Назва: {fav.get('name', 'Без назви')}\n"
-                debug_text += f"   Ціна: {fav.get('price', 0)}₴\n"
-        
-        await message.reply_text(debug_text)
+        pass # Залиште порожнім або видаліть
+    
+    async def check_favorites_debug(self, message):
+        pass

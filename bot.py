@@ -177,6 +177,31 @@ class FoodOrderBot:
     async def debug_fav(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Команда для дебагу улюблених"""
         await self.favorites.debug_favorites(update.message)
+    
+    async def check_favorites_debug(self, message):
+        """Глибока перевірка улюблених"""
+        user_id = message.from_user.id
+        data = self.db.load_data()
+        
+        debug_text = f"🔍 ГЛИБОКИЙ ДЕБАГ для user_id={user_id}\n"
+        debug_text += f"Весь data файл: {data}\n\n"
+        
+        debug_text += f"Розділ favorites: {data.get('favorites', 'НЕМАЄ')}\n"
+        
+        if 'favorites' in data:
+            debug_text += f"Ключі в favorites: {list(data['favorites'].keys())}\n"
+            user_key = str(user_id)
+            if user_key in data['favorites']:
+                debug_text += f"Ваші улюблені: {data['favorites'][user_key]}\n"
+                debug_text += f"Кількість: {len(data['favorites'][user_key])}\n"
+            else:
+                debug_text += f"Ключ {user_key} не знайдено в favorites\n"
+        
+        await message.reply_text(debug_text[:4000])  # Обмежуємо довжину
+
+    async def deep_debug(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Глибокий дебаг улюблених"""
+        await self.favorites.check_favorites_debug(update.message)
 
 def main():
     bot = FoodOrderBot()
@@ -187,6 +212,7 @@ def main():
     app.add_handler(CallbackQueryHandler(bot.handle_callback))
     app.add_handler(CommandHandler("debugfav", bot.debug_fav))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, bot.handle_message))
+    app.add_handler(CommandHandler("debugfav", bot.debug_fav))
     app.add_handler(CommandHandler("debugfav", bot.debug_fav))
     
     
