@@ -172,10 +172,11 @@ class FoodOrderBot:
         self.user_states[update.message.from_user.id] = "waiting_admin_password"
         await update.message.reply_text("🔐 Пароль:")
     
+
+
     async def debug_fav(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Команда для дебагу улюблених"""
         await self.favorites.debug_favorites(update.message)
-
 
 def main():
     bot = FoodOrderBot()
