@@ -176,9 +176,6 @@ class FoodOrderBot:
         """Команда для дебагу улюблених"""
         await self.favorites.debug_favorites(update.message)
 
-    async def debug_fav(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Команда для дебагу улюблених"""
-        await self.favorites.debug_favorites(update.message)
 
 def main():
     bot = FoodOrderBot()
