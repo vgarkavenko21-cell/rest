@@ -1,0 +1,994 @@
+{
+  "categories": {
+    "breakfast": {
+      "name": "🍳 Сніданки",
+      "items": {
+        "1764070688": {
+          "name": "Сирник",
+          "category": "breakfast",
+          "description": "Склад: Сир кисломолочний, борошно пшеничне вищого сорту, яйця курячі(жовток), цукор білий, цукор ванільний",
+          "price": 333,
+          "image": "/Users/viktor/Desktop/Files/бот для ресторану/sirnik.jpg"
+        },
+        "1770127026": {
+          "name": "бараьан",
+          "category": "breakfast",
+          "description": "вкусно",
+          "price": 444,
+          "image": "/Users/viktor/Downloads/bowl-3366480_1920.jpg"
+        }
+      }
+    },
+    "hot": {
+      "name": "🍲 Гарячі страви",
+      "items": {
+        "1770127270": {
+          "name": "Омлет",
+          "category": "hot",
+          "description": "З яйцем",
+          "price": 56000,
+          "image": "/Users/viktor/Downloads/yaichnica-omlet_siteWeb.jpg"
+        }
+      }
+    },
+    "salads": {
+      "name": "🥗 Салати",
+      "items": {}
+    },
+    "meat": {
+      "name": "🍖 М'ясо",
+      "items": {}
+    },
+    "cold": {
+      "name": "🥪 Холодні закуски",
+      "items": {}
+    }
+  },
+  "orders": {
+    "1764072401": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1,
+          "category": "breakfast"
+        }
+      },
+      "total": 383,
+      "delivery_address": "Пирогова",
+      "status": "confirmed",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T14:06:41.729338",
+      "is_paid": true
+    },
+    "1764072507": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 5,
+          "category": "breakfast"
+        }
+      },
+      "total": 1715,
+      "delivery_address": "Т",
+      "status": "delivery",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T14:08:27.731435"
+    },
+    "1764072639": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 2,
+          "category": "breakfast"
+        }
+      },
+      "total": 716,
+      "delivery_address": "Про",
+      "status": "delivered",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T14:10:39.871239"
+    },
+    "1764072774": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1,
+          "category": "breakfast"
+        }
+      },
+      "total": 383,
+      "delivery_address": "Gk",
+      "status": "confirmed",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T14:12:54.252561"
+    },
+    "1764077136": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1,
+          "category": "breakfast"
+        }
+      },
+      "total": 383,
+      "delivery_address": "Pew",
+      "delivery_time": "Не вказано",
+      "status": "confirmed",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T15:25:36.645685",
+      "is_paid": true
+    },
+    "1764077175": {
+      "user_id": 6160033177,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1,
+          "category": "breakfast"
+        }
+      },
+      "total": 383,
+      "delivery_address": "ХУЙЙЙЙЙЙЙЙЙ",
+      "delivery_time": "Не вказано",
+      "status": "delivered",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T15:26:15.164348"
+    },
+    "1764078411": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1,
+          "category": "breakfast"
+        }
+      },
+      "total": 383,
+      "delivery_address": "пирогова",
+      "delivery_time": "Не вказано",
+      "status": "confirmed",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T15:46:51.986781",
+      "is_paid": true
+    },
+    "1764078664": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1,
+          "category": "breakfast"
+        }
+      },
+      "total": 383,
+      "delivery_address": "kjkjh",
+      "delivery_time": "Не вказано",
+      "status": "confirmed",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T15:51:04.909250",
+      "is_paid": true
+    },
+    "1764079411": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1,
+          "category": "breakfast"
+        }
+      },
+      "total": 383,
+      "delivery_address": "kjhkjh",
+      "delivery_time": "Не вказано",
+      "status": "confirmed",
+      "payment_method": "cash",
+      "created_at": "2025-11-25T16:03:31.804113",
+      "is_paid": true
+    },
+    "1770217552": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 4
+        }
+      },
+      "total": "Столик №6",
+      "delivery_address": "🏠 В закладі",
+      "delivery_time": 1776,
+      "status": "confirmed",
+      "payment_method": "cash",
+      "created_at": "2026-02-04T17:05:52.888250",
+      "is_paid": true
+    },
+    "1770218434": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №5",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T17:20:34.545929"
+    },
+    "1770218704": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 2
+        }
+      },
+      "total": 666,
+      "contact_info": "Столик №2",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T17:25:04.112247"
+    },
+    "1770219770": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        },
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 1221,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T17:42:50.632294"
+    },
+    "1770221395": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        },
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        }
+      },
+      "total": 777,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T18:09:55.469753"
+    },
+    "1770222186": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 2
+        },
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 1110,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T18:23:06.624464",
+      "paid_at": "2026-02-06T13:01:33.723281"
+    },
+    "1770222214": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T18:23:34.957749",
+      "paid_at": "2026-02-06T13:01:33.723312"
+    },
+    "1770222779": {
+      "user_id": 523651165,
+      "items": {
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 2
+        }
+      },
+      "total": 112000,
+      "contact_info": "Столик №6",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T18:32:59.995088",
+      "paid_at": "2026-02-04T18:48:51.402116"
+    },
+    "1770223744": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №5",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T18:49:04.099483",
+      "paid_at": "2026-02-06T13:01:31.596908"
+    },
+    "1770223751": {
+      "user_id": 523651165,
+      "items": {
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 2
+        }
+      },
+      "total": 112000,
+      "contact_info": "Столик №5",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-04T18:49:11.954041",
+      "paid_at": "2026-02-06T13:01:31.596934"
+    },
+    "1770375064": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 4
+        }
+      },
+      "total": 1776,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T12:51:04.964324",
+      "paid_at": "2026-02-06T13:01:33.723316"
+    },
+    "1770375186": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 5
+        },
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 2
+        }
+      },
+      "total": 2886,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T12:53:06.328498",
+      "paid_at": "2026-02-06T13:01:33.723320"
+    },
+    "1770375226": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 3
+        }
+      },
+      "total": 1382,
+      "contact_info": "пирогова",
+      "order_type": "🚗 Доставка",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T12:53:46.058343",
+      "paid_at": "2026-02-06T13:04:13.274229"
+    },
+    "1770375341": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 3
+        }
+      },
+      "total": 1332,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T12:55:41.017230",
+      "paid_at": "2026-02-06T13:01:33.723323"
+    },
+    "1770375390": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №8",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T12:56:30.917603",
+      "paid_at": "2026-02-06T13:01:30.427109"
+    },
+    "1770375684": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "аів",
+      "order_type": null,
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:01:24.819028",
+      "paid_at": "2026-02-06T13:02:29.573991"
+    },
+    "1770375711": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 444,
+      "contact_info": "Столик №3",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:01:51.688323",
+      "paid_at": "2026-02-06T13:03:24.572644"
+    },
+    "1770375771": {
+      "user_id": 523651165,
+      "items": {
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 1
+        }
+      },
+      "total": 56000,
+      "contact_info": "пирогова",
+      "order_type": null,
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:02:51.584735",
+      "paid_at": "2026-02-06T13:02:56.272832"
+    },
+    "1770375834": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 938,
+      "contact_info": "лио",
+      "order_type": "🚗 Доставка",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:03:54.747871",
+      "paid_at": "2026-02-06T13:04:15.181660"
+    },
+    "1770376988": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        },
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 2
+        }
+      },
+      "total": 1110,
+      "contact_info": "Столик №7",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:23:08.155051",
+      "paid_at": "2026-02-06T13:23:13.045087"
+    },
+    "1770377081": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 3
+        }
+      },
+      "total": 1332,
+      "contact_info": "Столик №34",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:24:41.831963",
+      "paid_at": "2026-02-06T16:38:30.078857"
+    },
+    "1770377275": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №5",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:27:55.952890",
+      "paid_at": "2026-02-06T16:38:31.112251"
+    },
+    "1770377367": {
+      "user_id": 523651165,
+      "items": {
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 1
+        }
+      },
+      "total": 56000,
+      "contact_info": "Пирогова 103 а",
+      "order_type": null,
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:29:27.925135",
+      "paid_at": "2026-02-06T13:29:40.132829"
+    },
+    "1770377484": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 3
+        }
+      },
+      "total": 1332,
+      "contact_info": "рро",
+      "order_type": null,
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T13:31:24.773458",
+      "paid_at": "2026-02-06T16:58:07.789486"
+    },
+    "1770388682": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        },
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 777,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T16:38:02.071350",
+      "paid_at": "2026-02-06T16:38:31.973567"
+    },
+    "1770388688": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 444,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T16:38:08.442024",
+      "paid_at": "2026-02-06T16:38:31.973597"
+    },
+    "1770388699": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 4
+        }
+      },
+      "total": 1776,
+      "contact_info": "Столик №4",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T16:38:19.539666",
+      "paid_at": "2026-02-06T16:38:31.973607"
+    },
+    "1770389168": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        },
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        },
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 1
+        }
+      },
+      "total": 56777,
+      "contact_info": "Столик №7",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T16:46:08.178480",
+      "paid_at": "2026-02-06T17:10:00.394399"
+    },
+    "1770389883": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 4
+        },
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        }
+      },
+      "total": 2109,
+      "contact_info": "рлиотд",
+      "order_type": null,
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T16:58:03.235117",
+      "paid_at": "2026-02-06T16:58:11.586773"
+    },
+    "1770390230": {
+      "user_id": 523651165,
+      "items": {
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 1
+        },
+        "favorite_1770388682_Сирник": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        }
+      },
+      "total": 56333,
+      "contact_info": ";km",
+      "order_type": null,
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T17:03:50.100867",
+      "paid_at": "2026-02-06T17:06:34.504025"
+    },
+    "1770390381": {
+      "user_id": 523651165,
+      "items": {
+        "favorite_1770377484_бараьан": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        },
+        "favorite_1770389168_Омлет": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 1
+        },
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 56888,
+      "contact_info": "пирогова 103 а",
+      "order_type": null,
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T17:06:21.013384",
+      "paid_at": "2026-02-06T17:08:38.576740"
+    },
+    "1770390573": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        },
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        },
+        "hot_1770127270": {
+          "name": "Омлет",
+          "price": 56000,
+          "quantity": 1
+        }
+      },
+      "total": 56777,
+      "contact_info": "Столик №6",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T17:09:33.938829",
+      "paid_at": "2026-02-06T17:09:58.621535"
+    },
+    "1770390687": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №5",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T17:11:27.648296",
+      "paid_at": "2026-02-06T17:11:57.614517"
+    },
+    "1770391341": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1764070688": {
+          "name": "Сирник",
+          "price": 333,
+          "quantity": 1
+        },
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 777,
+      "contact_info": "Столик №7",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-06T17:22:21.357207",
+      "paid_at": "2026-02-07T12:56:32.596661"
+    },
+    "1770460130": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 444,
+      "contact_info": "хуй",
+      "order_type": null,
+      "status": "new",
+      "is_paid": false,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T12:28:50.664951"
+    },
+    "1770460464": {
+      "user_id": 523651165,
+      "items": {
+        "fav_fav_1770460130_бараьан": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        },
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №9",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T12:34:24.895580",
+      "paid_at": "2026-02-07T12:56:33.591117"
+    },
+    "1770460473": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 444,
+      "contact_info": "Столик №9",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T12:34:33.907190",
+      "paid_at": "2026-02-07T12:56:33.591146"
+    },
+    "1770460532": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 1
+        }
+      },
+      "total": 444,
+      "contact_info": "Столик №9",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T12:35:32.029743",
+      "paid_at": "2026-02-07T12:56:33.591155"
+    },
+    "1770460543": {
+      "user_id": 523651165,
+      "items": {
+        "breakfast_1770127026": {
+          "name": "бараьан",
+          "price": 444,
+          "quantity": 2
+        }
+      },
+      "total": 888,
+      "contact_info": "Столик №9",
+      "order_type": "🏠 В закладі",
+      "status": "confirmed",
+      "is_paid": true,
+      "payment_method": "cash",
+      "created_at": "2026-02-07T12:35:43.605695",
+      "paid_at": "2026-02-07T12:56:33.591161"
+    }
+  },
+  "users": {},
+  "settings": {
+    "delivery_price": 50,
+    "min_order": 100
+  },
+  "favorites": {
+    "523651165": [
+      {
+        "id": "fav_1770460130_бараьан",
+        "name": "бараьан",
+        "price": 444,
+        "quantity": 1
+      }
+    ]
+  }
+}
